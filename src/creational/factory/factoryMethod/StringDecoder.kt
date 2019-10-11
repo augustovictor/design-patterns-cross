@@ -33,8 +33,7 @@ class ContentDecoderFactory private constructor() {
 fun main() {
     val userInput = "abc,utf8"
 
-    // Every time we have a new decoder we have to change this client class
-    // We need to find a way to keep this client compliant with OCP
+    // Now we can evolve the ConcentDecoder without having to change their clients
     val decoder: ContentDecoder = ContentDecoderFactory.makeContentDecoder(userInput)
 
     println("Decoding result: ${decoder.decode(userInput)}")
