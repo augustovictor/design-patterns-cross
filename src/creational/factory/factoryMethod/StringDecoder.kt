@@ -18,17 +18,24 @@ class Utf8Decoder : ContentDecoder {
     }
 }
 
+class ContentDecoderFactory private constructor() {
+    companion object {
+        fun makeContentDecoder(content: String): ContentDecoder {
+            return when {
+                content.contains("utf8") -> Utf8Decoder()
+                content.contains("base64") -> Base64Decoder()
+                else -> throw RuntimeException("No decoder found to decode: $content")
+            }
+        }
+    }
+}
 
 fun main() {
     val userInput = "abc,utf8"
 
     // Every time we have a new decoder we have to change this client class
     // We need to find a way to keep this client compliant with OCP
-    val decoder: ContentDecoder = when {
-        userInput.contains("utf8") -> Utf8Decoder()
-        userInput.contains("base64") -> Base64Decoder()
-        else -> throw RuntimeException("No decoder found to decode: $userInput")
-    }
+    val decoder: ContentDecoder = ContentDecoderFactory.makeContentDecoder(userInput)
 
     println("Decoding result: ${decoder.decode(userInput)}")
 
