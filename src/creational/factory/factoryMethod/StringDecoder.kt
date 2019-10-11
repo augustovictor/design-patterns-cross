@@ -21,6 +21,8 @@ class Utf8Decoder : ContentDecoder {
 fun main() {
     val userInput = "abc,utf8"
 
+    // Every time we have a new decoder we have to change this client class
+    // We need to find a way to keep this client compliant with OCP
     val result: String = when {
         userInput.contains("utf8") -> Utf8Decoder().decode("asdf")
         userInput.contains("base64") -> Base64Decoder().decode("asdf")
